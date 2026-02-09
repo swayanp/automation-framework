@@ -1,6 +1,7 @@
 import requests
 import allure
 import json
+import json as json_lib
 
 
 class APIClient:
@@ -23,10 +24,13 @@ class APIClient:
     def post(self, endpoint, json=None, headers=None):
         url = f"{self.base_url}{endpoint}"
         self.logger.info(f"POST {url}")
+
         response = requests.post(url, json=json, headers=headers)
+
         allure.attach(
-            json.dumps(response.json(), indent=2),
+            json_lib.dumps(response.json(), indent=2),
             name=f"POST {endpoint} Response",
             attachment_type=allure.attachment_type.JSON
         )
+
         return response
