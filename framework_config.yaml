@@ -1,0 +1,28 @@
+default_env: qa
+
+environments:
+  dev:
+    base_url: https://www.saucedemo.com 
+    log_level: DEBUG
+    browser: chrome
+    headless: false
+    incognito: true
+    username: standard_user
+    password: secret_sauce
+
+  qa:
+    base_url: https://www.saucedemo.com 
+    log_level: INFO
+    browser: chrome
+    headless: false
+    incognito: true
+    username: standard_user
+    password: secret_sauce
+
+  prod:
+    base_url: https://www.saucedemo.com 
+    log_level: WARNING
+    browser: chrome
+    headless: false
+    username: standard_user
+    password: secret_sauce

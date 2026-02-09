@@ -1,0 +1,4 @@
+users:
+  valid_user:
+    username: standard_user
+    password: ${SAUCE_QA_PASSWORD}
