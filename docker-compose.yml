@@ -1,5 +1,3 @@
-version: "3.9"
-
 services:
 
   postgres:
@@ -39,3 +37,6 @@ services:
     command: >
       pytest -m "smoke or sanity or regression"
       --alluredir=/automation-framework/allure-results
+
+volumes:
+  pgdata:
