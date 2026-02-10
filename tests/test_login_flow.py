@@ -16,4 +16,4 @@ class TestLoginFlow(BaseTest):
         login_page.login(self.username, self.password)
 
         products_page = ProductsPage(self.driver, self.logger)
-        assert products_page.get_title() == "Products123"
+        assert products_page.get_title() == "Products"
