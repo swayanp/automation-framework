@@ -1,9 +1,19 @@
-default_env: qa
+# default_env: qa
+
+# environments:
+#   qa:
+#     host: localhost
+#     port: 5432
+#     database: testdb
+#     username: ${DB_USER}
+#     password: ${DB_PASSWORD}
+default_env: docker
 
 environments:
-  qa:
-    host: localhost
-    port: 5432
-    database: testdb
+  docker:
+    host: ${DB_HOST}
+    port: ${DB_PORT}
+    database: ${DB_NAME}
     username: ${DB_USER}
     password: ${DB_PASSWORD}
+
