@@ -1,0 +1,41 @@
+version: "3.9"
+
+services:
+
+  postgres:
+    image: postgres:15
+    container_name: test-postgres
+    environment:
+      POSTGRES_DB: testdb
+      POSTGRES_USER: testuser
+      POSTGRES_PASSWORD: testpass
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U testuser"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  automation-tests:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: automation-framework-tests
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      ENV: docker
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_NAME: testdb
+      DB_USER: testuser
+      DB_PASSWORD: testpass
+    volumes:
+      - ./allure-results:/automation-framework/allure-results
+    command: >
+      pytest -m "smoke or sanity or regression"
+      --alluredir=/automation-framework/allure-results
