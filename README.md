@@ -1,1 +1,1 @@
-Automatic CI trigger on code pusged to GITHUB
+Automatic CI trigger on code pushed to GITHUB main branch

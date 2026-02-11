@@ -87,6 +87,11 @@
 pipeline {
     agent any
 
+    options {
+        skipDefaultCheckout(true)   // Prevent Jenkins double checkout (fixes UNSTABLE issue)
+        timestamps()
+    }
+
     environment {
         DOCKER_BUILDKIT = '1'
     }
@@ -95,7 +100,15 @@ pipeline {
 
         stage('Checkout') {
             steps {
-                checkout scm
+                git branch: 'main',
+                    credentialsId: 'github-creds',
+                    url: 'https://github.com/swayanp/automation-framework.git'
+            }
+        }
+
+        stage('Clean Workspace') {
+            steps {
+                bat 'if exist allure-results rmdir /s /q allure-results'
             }
         }
 
@@ -110,13 +123,23 @@ pipeline {
     }
 
     post {
+
         always {
-            bat '''
-            docker compose down
-            '''
-            allure includeProperties: false,
-                   jdk: '',
-                   results: [[path: 'allure-results']]
+            bat 'docker compose down'
+
+            allure(
+                includeProperties: false,
+                jdk: '',
+                results: [[path: 'allure-results']]
+            )
+        }
+
+        success {
+            echo 'Build SUCCESS ✅'
+        }
+
+        failure {
+            echo 'Build FAILED ❌'
         }
     }
 }
